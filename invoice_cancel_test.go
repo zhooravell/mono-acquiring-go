@@ -2,24 +2,26 @@ package monoacquiring
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"git.kbyte.app/mono/sdk/mono-acquiring-go/util"
 	"github.com/go-playground/validator/v10"
+	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestInvoiceCreate(t *testing.T) {
+func TestCancelInvoice(t *testing.T) {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/merchant/invoice/create", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("/api/merchant/invoice/cancel", func(w http.ResponseWriter, req *http.Request) {
+		assert.Equal(t, http.MethodPost, req.Method)
+
 		w.WriteHeader(http.StatusOK)
 		_, _ = fmt.Fprint(w, `{
-  "invoiceId": "p2_9ZgpZVsl3",
-  "pageUrl": "https://pay.mbnk.biz/p2_9ZgpZVsl3"
+  "status": "processing",
+  "createdDate": "2025-07-17T12:00:00+03:00",
+  "modifiedDate": "2025-07-17T14:00:00+03:00"
 }`)
 	})
 
@@ -31,42 +33,34 @@ func TestInvoiceCreate(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
-	req := InvoiceCreateRequest{
-		Amount: 100,
+	req := CancelInvoiceRequest{
+		InvoiceID: "p2_9ZgpZVsl3",
 	}
-	res, err := client.CreateInvoice(context.Background(), req)
+	res, err := client.CancelInvoice(context.Background(), req)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, res)
-	assert.Equal(t, "p2_9ZgpZVsl3", res.InvoiceID)
-	assert.Equal(t, "https://pay.mbnk.biz/p2_9ZgpZVsl3", res.PageURL)
+	assert.Equal(t, "processing", res.Status)
+	assert.Equal(t, "2025-07-17T12:00:00+03:00", res.CreatedDate)
+	assert.Equal(t, "2025-07-17T14:00:00+03:00", res.ModifiedDate)
 }
 
-func TestInvoiceCreate_Validation(t *testing.T) {
-	ctx := context.Background()
+func TestCancelInvoice_Validation(t *testing.T) {
 	client, err := NewClient(Config{APIKey: "test", BaseURL: DefaultBaseURL}, nil, nil)
 
 	assert.NoError(t, err)
 
-	req := InvoiceCreateRequest{
-		WebHookURL:  util.Pointer("test"),
-		RedirectURL: util.Pointer("test"),
-		PaymentType: "test",
-	}
-
-	_, err = client.CreateInvoice(ctx, req)
+	res, err := client.CancelInvoice(context.Background(), CancelInvoiceRequest{})
 
 	assert.Error(t, err)
+	assert.Nil(t, res)
 
 	var errs validator.ValidationErrors
 
 	assert.True(t, errors.As(err, &errs), "validator.ValidationErrors")
 
 	expectedErrors := map[string]string{
-		"InvoiceCreateRequest.Amount":      "required",
-		"InvoiceCreateRequest.RedirectURL": "http_url",
-		"InvoiceCreateRequest.WebHookURL":  "http_url",
-		"InvoiceCreateRequest.PaymentType": "oneof",
+		"CancelInvoiceRequest.InvoiceID": "required",
 	}
 
 	assert.Len(t, errs, len(expectedErrors))
@@ -78,60 +72,68 @@ func TestInvoiceCreate_Validation(t *testing.T) {
 	}
 }
 
-func TestInvoiceCreate_NetworkError(t *testing.T) {
+func TestCancelInvoice_NetworkError(t *testing.T) {
 	tests := map[string]struct {
 		ErrCode    string
 		ErrMessage string
 		StatusCode int
 		Err        error
+		InvoiceID  string
 	}{
 		"bad request": {
 			ErrCode:    "BAD_REQUEST",
 			ErrMessage: "empty 'invoiceId'",
 			StatusCode: http.StatusBadRequest,
 			Err:        ErrBadRequestHTTPStatus,
+			InvoiceID:  "test-1",
 		},
 		"forbidden": {
 			ErrCode:    "FORBIDDEN",
 			ErrMessage: "invalid 'qrId'",
 			StatusCode: http.StatusForbidden,
 			Err:        ErrForbiddenHTTPStatus,
+			InvoiceID:  "test-2",
 		},
 		"not found": {
 			ErrCode:    "NOT_FOUND",
 			ErrMessage: "invalid 'qrId'",
 			StatusCode: http.StatusNotFound,
 			Err:        ErrNotFoundHTTPStatus,
+			InvoiceID:  "test-3",
 		},
 		"too many requests": {
 			ErrCode:    "TOO_MANY_REQUESTS",
 			ErrMessage: "invalid 'qrId'",
 			StatusCode: http.StatusTooManyRequests,
 			Err:        ErrTooManyRequestsHTTPStatus,
+			InvoiceID:  "test-4",
 		},
 		"internal server": {
 			ErrCode:    "INTERNAL_ERROR",
 			ErrMessage: "",
 			StatusCode: http.StatusInternalServerError,
 			Err:        ErrInternalHTTPStatus,
+			InvoiceID:  "test-5",
 		},
 		"method not allowed": {
 			ErrCode:    "METHOD_NOT_ALLOWED",
 			ErrMessage: "Method not allowed",
 			StatusCode: http.StatusMethodNotAllowed,
 			Err:        ErrMethodNotAllowedStatus,
+			InvoiceID:  "test-6",
 		},
 		"proxy auth required": {
 			ErrCode:    "",
 			ErrMessage: "",
 			StatusCode: http.StatusProxyAuthRequired,
 			Err:        ErrUnexpectedHTTPStatus,
+			InvoiceID:  "test-7",
 		},
 	}
 	for name, val := range tests {
 		t.Run(name, func(t *testing.T) {
 			mux := http.NewServeMux()
-			mux.HandleFunc("/api/merchant/invoice/create", func(w http.ResponseWriter, req *http.Request) {
+			mux.HandleFunc("/api/merchant/invoice/cancel", func(w http.ResponseWriter, req *http.Request) {
 				assert.Equal(t, http.MethodPost, req.Method)
 
 				w.WriteHeader(val.StatusCode)
@@ -147,7 +149,7 @@ func TestInvoiceCreate_NetworkError(t *testing.T) {
 
 			assert.NoError(t, err)
 
-			res, err := client.CreateInvoice(ctx, InvoiceCreateRequest{Amount: 100})
+			res, err := client.CancelInvoice(ctx, CancelInvoiceRequest{InvoiceID: val.InvoiceID})
 
 			assert.Error(t, err)
 			assert.ErrorIs(t, err, val.Err)

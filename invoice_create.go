@@ -39,7 +39,7 @@ func (c *Client) CreateInvoice(ctx context.Context, payload InvoiceCreateRequest
 		err     error
 		req     *http.Request
 		reqBody []byte
-		result  *InvoiceCreateResponse
+		result  InvoiceCreateResponse
 
 		path = "/api/merchant/invoice/create"
 	)
@@ -60,9 +60,9 @@ func (c *Client) CreateInvoice(ctx context.Context, payload InvoiceCreateRequest
 		return nil, err
 	}
 
-	if err = c.doReq(req, result); err != nil {
+	if err = c.doReq(req, &result); err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	return result, nil
+	return &result, nil
 }
