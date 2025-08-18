@@ -1,6 +1,6 @@
 module git.kbyte.app/mono/sdk/mono-acquiring-go
 
-go 1.24.5
+go 1.21
 
 require (
 	github.com/go-playground/validator/v10 v10.13.0
