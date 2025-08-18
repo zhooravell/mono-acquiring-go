@@ -42,7 +42,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
           cache: false
       - name: Install dependencies
-        run: go get .
+        run: go mod tidy
 
       - name: Build
         run: go build -v ./...
