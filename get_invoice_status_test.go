@@ -123,11 +123,11 @@ func TestGetInvoiceStatus_Validation(t *testing.T) {
 
 func TestGetInvoiceStatus_NetworkError(t *testing.T) {
 	tests := map[string]struct {
+		Err        error
 		ErrCode    string
 		ErrMessage string
-		StatusCode int
-		Err        error
 		InvoiceID  string
+		StatusCode int
 	}{
 		"bad request": {
 			ErrCode:    "BAD_REQUEST",

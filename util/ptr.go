@@ -1,3 +1,4 @@
+// revive:disable:var-naming
 package util
 
 // Pointer returns a pointer to the input value.

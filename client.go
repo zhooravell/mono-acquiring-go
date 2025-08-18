@@ -22,9 +22,9 @@ type (
 	}
 
 	Client struct {
-		cnf        Config
 		httpClient *http.Client
 		validator  *validator.Validate
+		cnf        Config
 	}
 )
 

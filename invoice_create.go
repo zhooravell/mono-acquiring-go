@@ -14,19 +14,19 @@ import (
 )
 
 type InvoiceCreateRequest struct {
-	Amount              int64                `json:"amount" validate:"required"`
+	SaveCardData        *SaveCardData        `json:"saveCardData,omitempty"`
 	Ccy                 *int64               `json:"ccy,omitempty"`
 	MerchantPaymentInfo *MerchantPaymentInfo `json:"merchantPaymInfo,omitempty"`
 	RedirectURL         *string              `json:"redirectUrl,omitempty" validate:"omitempty,http_url"`
 	WebHookURL          *string              `json:"webHookUrl,omitempty" validate:"omitempty,http_url"`
 	Validity            *int64               `json:"validity,omitempty"`
-	PaymentType         string               `json:"paymentType" validate:"required,oneof=debit hold"`
 	QrID                *string              `json:"qrId"`
 	Code                *string              `json:"code"`
-	SaveCardData        *SaveCardData        `json:"saveCardData,omitempty"`
 	AgentFeePercent     *float64             `json:"agentFeePercent,omitempty"`
 	TipsEmployeeID      *string              `json:"tipsEmployeeId,omitempty"`
 	DisplayType         *string              `json:"displayType,omitempty"`
+	PaymentType         string               `json:"paymentType" validate:"required,oneof=debit hold"`
+	Amount              int64                `json:"amount" validate:"required"`
 }
 
 type InvoiceCreateResponse struct {

@@ -80,10 +80,10 @@ func TestInvoiceCreate_Validation(t *testing.T) {
 
 func TestInvoiceCreate_NetworkError(t *testing.T) {
 	tests := map[string]struct {
+		Err        error
 		ErrCode    string
 		ErrMessage string
 		StatusCode int
-		Err        error
 	}{
 		"bad request": {
 			ErrCode:    "BAD_REQUEST",

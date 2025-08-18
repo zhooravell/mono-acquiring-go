@@ -16,21 +16,21 @@ type GetInvoiceStatusRequest struct {
 }
 
 type GetInvoiceStatusResponse struct {
-	InvoiceID     string           `json:"invoiceId"`
-	Status        string           `json:"status"`
-	FailureReason *string          `json:"failureReason,omitempty"`
-	ErrCode       *string          `json:"errCode,omitempty"`
-	Amount        int64            `json:"amount"`
-	Currency      int              `json:"ccy"`
+	Destination   *string          `json:"destination,omitempty"`
+	TipsInfo      *TipsInfo        `json:"tipsInfo,omitempty"`
 	FinalAmount   *int             `json:"finalAmount,omitempty"`
 	CreatedDate   *string          `json:"createdDate,omitempty"`
 	ModifiedDate  *string          `json:"modifiedDate,omitempty"`
 	Reference     *string          `json:"reference,omitempty"`
-	Destination   *string          `json:"destination,omitempty"`
-	CancelList    []CancelListItem `json:"cancelList,omitempty"`
+	ErrCode       *string          `json:"errCode,omitempty"`
 	PaymentInfo   *PaymentInfo     `json:"paymentInfo"`
+	FailureReason *string          `json:"failureReason,omitempty"`
 	WalletData    *WalletData      `json:"walletData,omitempty"`
-	TipsInfo      *TipsInfo        `json:"tipsInfo,omitempty"`
+	InvoiceID     string           `json:"invoiceId"`
+	Status        string           `json:"status"`
+	CancelList    []CancelListItem `json:"cancelList,omitempty"`
+	Amount        int64            `json:"amount"`
+	Currency      int              `json:"ccy"`
 }
 
 func (c *Client) GetInvoiceStatus(

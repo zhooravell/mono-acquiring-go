@@ -11,8 +11,8 @@ type errorData struct {
 }
 
 type SaveCardData struct {
-	SaveCard bool    `json:"saveCard"`
 	WalletID *string `json:"walletId,omitempty"`
+	SaveCard bool    `json:"saveCard"`
 }
 
 type Discount struct {
@@ -22,20 +22,20 @@ type Discount struct {
 }
 
 type BasketOrder struct {
-	Name            string     `json:"name" validate:"required"`
-	Qty             float64    `json:"qty" validate:"required"`
-	Sum             int64      `json:"sum" validate:"required"`
+	Footer          *string    `json:"footer,omitempty"`
+	SplitReceiverID *string    `json:"splitReceiverId,omitempty"`
+	Barcode         *string    `json:"barcode,omitempty"`
 	Total           *int64     `json:"total"`
 	Icon            *string    `json:"icon,omitempty"`
 	Unit            *string    `json:"unit,omitempty"`
-	Code            string     `json:"code" validate:"required"`
-	Barcode         *string    `json:"barcode,omitempty"`
 	Header          *string    `json:"header,omitempty"`
-	Footer          *string    `json:"footer,omitempty"`
-	Tax             []int64    `json:"tax,omitempty"`
 	Uktzed          *string    `json:"uktzed,omitempty"`
-	SplitReceiverID *string    `json:"splitReceiverId,omitempty"`
+	Name            string     `json:"name" validate:"required"`
+	Code            string     `json:"code" validate:"required"`
+	Tax             []int64    `json:"tax,omitempty"`
 	Discounts       []Discount `json:"discounts,omitempty" validate:"dive"`
+	Qty             float64    `json:"qty" validate:"required"`
+	Sum             int64      `json:"sum" validate:"required"`
 }
 
 type MerchantPaymentInfo struct {

@@ -10,15 +10,15 @@ import (
 )
 
 type CancelInvoiceItem struct {
-	Name    string  `json:"name" validate:"required"`
-	Qty     int     `json:"qty" validate:"required"`
-	Sum     int64   `json:"sum" validate:"required"`
-	Code    string  `json:"code" validate:"required"`
 	Barcode *string `json:"barcode,omitempty"`
 	Header  *string `json:"header,omitempty"`
 	Footer  *string `json:"footer,omitempty"`
-	Tax     []int64 `json:"tax,omitempty"`
 	Uktzed  *string `json:"uktzed,omitempty"`
+	Name    string  `json:"name" validate:"required"`
+	Code    string  `json:"code" validate:"required"`
+	Tax     []int64 `json:"tax,omitempty"`
+	Qty     int     `json:"qty" validate:"required"`
+	Sum     int64   `json:"sum" validate:"required"`
 }
 
 type CancelInvoiceRequest struct {

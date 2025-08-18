@@ -20,18 +20,18 @@ type PaymentInfo struct {
 	Bank          string `json:"bank"`
 	PaymentSystem string `json:"paymentSystem"`
 	PaymentMethod string `json:"paymentMethod"`
-	Fee           int64  `json:"fee"`
 	Country       string `json:"country"`
+	Fee           int64  `json:"fee"`
 	AgentFee      int64  `json:"agentFee"`
 }
 
 type CancelListItem struct {
 	Status       string `json:"status"`
-	Amount       int64  `json:"amount"`
-	Ccy          int    `json:"ccy"`
 	CreatedDate  string `json:"createdDate"`
 	ModifiedDate string `json:"modifiedDate"`
 	ApprovalCode string `json:"approvalCode"`
 	Rrn          string `json:"rrn"`
 	ExtRef       string `json:"extRef"`
+	Amount       int64  `json:"amount"`
+	Ccy          int    `json:"ccy"`
 }
