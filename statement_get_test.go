@@ -111,7 +111,6 @@ func TestGetStatement_Validation(t *testing.T) {
 }
 
 func TestGetStatement_NetworkError(t *testing.T) {
-
 	from := time.Unix(1755692087, 0)
 	to := time.Unix(1755692314, 0)
 

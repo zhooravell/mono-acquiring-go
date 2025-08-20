@@ -11,12 +11,12 @@ Monobank Acquiring GoLang SDK
 | Скасування оплати                       | POST        | `/api/merchant/invoice/cancel`                              | CancelInvoice()        |
 | Інвалідація рахунку                     | POST        | `/api/merchant/invoice/remove`                              | RemoveInvoice()        |
 | Відкритий ключ                          | GET         | `/api/merchant/pubkey`                                      | GetPublicKey()         |
-| Фіналізація суми холду                  | POST        | `/api/merchant/invoice/finalize`                            |                        |
+| Фіналізація суми холду                  | POST        | `/api/merchant/invoice/finalize`                            | FinalizeHold()         |
 | Інформація про QR-касу                  | GET         | `/api/merchant/qr/details?qrId={qrId}`                      | GetQRDetails()         |
 | Видалення суми оплати QR                | POST        | `/api/merchant/qr/reset-amount`                             | QrResetAmount()        |
 | Список QR-кас                           | GET         | `/api/merchant/qr/list`                                     | GetQRList()            | 
 | Дані мерчанта                           | GET         | `/api/merchant/details`                                     | GetMerchantDetails()   |
-| Виписка за період                       | GET         | `/api/merchant/statement`                                   |                        |
+| Виписка за період                       | GET         | `/api/merchant/statement`                                   | GetStatement()         |
 | Видалення токенізованої картки          | DELETE      | `/api/merchant/wallet/card`                                 | RemoveWalletCard()     |
 | Список карток у гаманці                 | GET         | `/api/merchant/wallet`                                      | GetWalletCardList()    |
 | Оплата по токену                        | POST        | `/api/merchant/wallet/payment`                              |                        |

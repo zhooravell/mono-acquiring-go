@@ -48,6 +48,7 @@ const (
 	getReceiptPath           = "/api/merchant/invoice/receipt"
 	geFiscalChecksPath       = "/api/merchant/invoice/fiscal-checks"
 	getStatementPath         = "/api/merchant/statement"
+	finalizeHoldPath         = "/api/merchant/invoice/finalize"
 )
 
 var statusToError = map[int]error{

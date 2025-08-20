@@ -210,3 +210,17 @@ type Statement struct {
 	Amount        int64                  `json:"amount"`
 	Currency      int                    `json:"ccy"`
 }
+
+const (
+	holdStatusSuccess = "success"
+)
+
+type HoldFinalizationStatus string
+
+func (hfs HoldFinalizationStatus) String() string {
+	return string(hfs)
+}
+
+func (hfs HoldFinalizationStatus) IsSuccess() bool {
+	return hfs.String() == holdStatusSuccess
+}

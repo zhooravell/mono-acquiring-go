@@ -33,7 +33,7 @@ type CancelInvoiceRequest struct {
 }
 
 type CancelInvoiceResponse struct {
-	Status       string `json:"status"`
+	Status       string `json:"status"` // TODO enum
 	CreatedDate  string `json:"createdDate"`
 	ModifiedDate string `json:"modifiedDate"`
 }
