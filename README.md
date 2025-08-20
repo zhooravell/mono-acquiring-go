@@ -1,5 +1,6 @@
 Monobank Acquiring GoLang SDK
 =============================
+[![GO CI](https://github.com/zhooravell/mono-acquiring-go/actions/workflows/php.yml/badge.svg)](https://github.com/zhooravell/mono-acquiring-go/actions/workflows/php.yml)
 
 ## Supported API Methods
 
