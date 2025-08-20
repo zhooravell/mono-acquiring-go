@@ -11,13 +11,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetPublicKey(t *testing.T) {
+func TestGetSplitReceiverList(t *testing.T) {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/api/merchant/pubkey", func(w http.ResponseWriter, req *http.Request) {
+	mux.HandleFunc("/api/merchant/split-receiver/list", func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, http.MethodGet, req.Method)
 
 		w.WriteHeader(http.StatusOK)
-		_, _ = fmt.Fprint(w, `{"key": "test-key"}`)
+		_, _ = fmt.Fprint(w, `{
+  "list": [
+    {
+      "splitReceiverId": "1",
+      "name": "ФОП Олег Антонов"
+    },
+	{
+      "splitReceiverId": "2",
+      "name": "ФОП Юрій Кондратюк"
+    }
+  ]
+}`)
 	})
 
 	srv := httptest.NewServer(mux)
@@ -28,14 +39,19 @@ func TestGetPublicKey(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, client)
 
-	res, err := client.GetPublicKey(context.Background())
+	res, err := client.GetSplitReceiverList(context.Background())
 
 	assert.NoError(t, err)
 	assert.NotNil(t, res)
-	assert.Equal(t, "test-key", res.Key)
+	assert.Len(t, res.List, 2)
+
+	assert.Equal(t, "1", res.List[0].SplitReceiverID)
+	assert.Equal(t, "ФОП Олег Антонов", res.List[0].Name)
+	assert.Equal(t, "2", res.List[1].SplitReceiverID)
+	assert.Equal(t, "ФОП Юрій Кондратюк", res.List[1].Name)
 }
 
-func TestGetPublicKey_NetworkError(t *testing.T) {
+func TestGetSplitReceiverList_NetworkError(t *testing.T) {
 	tests := map[string]struct {
 		Err        error
 		ErrCode    string
@@ -88,7 +104,7 @@ func TestGetPublicKey_NetworkError(t *testing.T) {
 	for name, val := range tests {
 		t.Run(name, func(t *testing.T) {
 			mux := http.NewServeMux()
-			mux.HandleFunc("/api/merchant/pubkey", func(w http.ResponseWriter, req *http.Request) {
+			mux.HandleFunc("/api/merchant/split-receiver/list", func(w http.ResponseWriter, req *http.Request) {
 				assert.Equal(t, http.MethodGet, req.Method)
 
 				w.WriteHeader(val.StatusCode)
@@ -102,7 +118,7 @@ func TestGetPublicKey_NetworkError(t *testing.T) {
 
 			assert.NoError(t, err)
 
-			res, err := client.GetPublicKey(context.Background())
+			res, err := client.GetSplitReceiverList(context.Background())
 
 			assert.Error(t, err)
 			assert.ErrorIs(t, err, val.Err)

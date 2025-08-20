@@ -31,12 +31,27 @@ type (
 const (
 	DefaultBaseURL = "https://api.monobank.ua/"
 
-	invoiceStatusPath = "/api/merchant/invoice/status"
-	invoiceCancelPath = "/api/merchant/invoice/cancel"
-	invoiceCreatePath = "/api/merchant/invoice/create"
-	invoiceRemovePath = "/api/merchant/invoice/remove"
-	getPublicKeyPath  = "/api/merchant/pubkey"
+	invoiceStatusPath        = "/api/merchant/invoice/status"
+	invoiceCancelPath        = "/api/merchant/invoice/cancel"
+	invoiceCreatePath        = "/api/merchant/invoice/create"
+	invoiceRemovePath        = "/api/merchant/invoice/remove"
+	getPublicKeyPath         = "/api/merchant/pubkey"
+	getEmployeeListPath      = "/api/merchant/employee/list"
+	getMerchantDetailsPath   = "/api/merchant/details"
+	getQRListPath            = "/api/merchant/qr/list"
+	getWalletCardListPath    = "/api/merchant/wallet"
+	getSplitReceiverListPath = "/api/merchant/split-receiver/list"
+	removeWalletCardPath     = "/api/merchant/wallet/card"
 )
+
+var statusToError = map[int]error{
+	http.StatusBadRequest:          ErrBadRequestHTTPStatus,
+	http.StatusForbidden:           ErrForbiddenHTTPStatus,
+	http.StatusNotFound:            ErrNotFoundHTTPStatus,
+	http.StatusTooManyRequests:     ErrTooManyRequestsHTTPStatus,
+	http.StatusInternalServerError: ErrInternalHTTPStatus,
+	http.StatusMethodNotAllowed:    ErrMethodNotAllowedStatus,
+}
 
 func NewClient(config Config, httpClient *http.Client, validate *validator.Validate) (*Client, error) {
 	if httpClient == nil {
@@ -112,13 +127,8 @@ func (c *Client) newRequest(
 }
 
 func (c *Client) doReq(req *http.Request, result any) error {
-	var (
-		err     error
-		res     *http.Response
-		resBody []byte
-	)
-
-	if res, err = c.httpClient.Do(req); err != nil {
+	res, err := c.httpClient.Do(req)
+	if err != nil {
 		return errors.WithStack(err)
 	}
 
@@ -126,39 +136,26 @@ func (c *Client) doReq(req *http.Request, result any) error {
 		_ = res.Body.Close()
 	}()
 
-	if resBody, err = io.ReadAll(res.Body); err != nil {
-		return errors.WithStack(err)
-	}
-
 	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
 		var errorData errorData
 
-		_ = json.Unmarshal(resBody, &errorData)
+		err = json.NewDecoder(res.Body).Decode(&errorData)
 
-		switch res.StatusCode {
-		case http.StatusBadRequest:
-			return newRequestError(ErrBadRequestHTTPStatus, errorData.Code, errorData.Message)
-		case http.StatusForbidden:
-			return newRequestError(ErrForbiddenHTTPStatus, errorData.Code, errorData.Message)
-		case http.StatusNotFound:
-			return newRequestError(ErrNotFoundHTTPStatus, errorData.Code, errorData.Message)
-		case http.StatusTooManyRequests:
-			return newRequestError(ErrTooManyRequestsHTTPStatus, errorData.Code, errorData.Message)
-		case http.StatusInternalServerError:
-			return newRequestError(ErrInternalHTTPStatus, errorData.Code, errorData.Message)
-		case http.StatusMethodNotAllowed:
-			return newRequestError(ErrMethodNotAllowedStatus, errorData.Code, errorData.Message)
-		default:
-			return newRequestError(ErrUnexpectedHTTPStatus, errorData.Code, errorData.Message)
+		if err != nil {
+			errorData.Message = err.Error()
 		}
+
+		if errCode, ok := statusToError[res.StatusCode]; ok {
+			return newRequestError(errCode, errorData.Code, errorData.Message)
+		}
+
+		return newRequestError(ErrUnexpectedHTTPStatus, errorData.Code, errorData.Message)
 	}
 
-	if result == nil {
-		return nil
-	}
-
-	if err = json.Unmarshal(resBody, result); err != nil {
-		return errors.WithStack(err)
+	if result != nil {
+		if err := json.NewDecoder(res.Body).Decode(result); err != nil {
+			return errors.WithStack(err)
+		}
 	}
 
 	return nil

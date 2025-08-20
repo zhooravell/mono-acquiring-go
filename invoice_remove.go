@@ -19,12 +19,12 @@ func (c *Client) RemoveInvoice(ctx context.Context, payload RemoveInvoiceRequest
 		return errors.WithStack(err)
 	}
 
-	reqBody, err := json.Marshal(payload)
-	if err != nil {
+	buf := new(bytes.Buffer)
+	if err = json.NewEncoder(buf).Encode(payload); err != nil {
 		return errors.Wrap(err, "failed to marshal remove invoice request")
 	}
 
-	req, err := c.newRequest(ctx, http.MethodPost, invoiceRemovePath, nil, bytes.NewBuffer(reqBody))
+	req, err := c.newRequest(ctx, http.MethodPost, invoiceRemovePath, nil, buf)
 	if err != nil {
 		return err
 	}

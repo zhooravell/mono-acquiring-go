@@ -35,3 +35,27 @@ type CancelListItem struct {
 	Amount            int64  `json:"amount"`
 	Currency          int    `json:"ccy"`
 }
+
+const (
+	qrAmountTypeMerchant = "merchant"
+	qrAmountTypeClient   = "client"
+	qrAmountTypeFix      = "fix"
+)
+
+type QRAmountType string
+
+func (qat QRAmountType) String() string {
+	return string(qat)
+}
+
+func (qat QRAmountType) IsMerchant() bool {
+	return qat.String() == qrAmountTypeMerchant
+}
+
+func (qat QRAmountType) IsClient() bool {
+	return qat.String() == qrAmountTypeClient
+}
+
+func (qat QRAmountType) IsFix() bool {
+	return qat.String() == qrAmountTypeFix
+}

@@ -52,7 +52,7 @@ func (c *Client) GetInvoiceStatus(
 
 	var result GetInvoiceStatusResponse
 	if err = c.doReq(req, &result); err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 
 	return &result, nil

@@ -3,6 +3,14 @@ package monoacquiring
 const (
 	PaymentTypeDebit = "debit"
 	PaymentTypeHold  = "hold"
+
+	DisplayTypeIframe = "iframe"
+
+	DiscountTypeDiscount    = "DISCOUNT"
+	DiscountTypeExtraCharge = "EXTRA_CHARGE"
+
+	DiscountModePercent = "PERCENT"
+	DiscountModeValue   = "VALUE"
 )
 
 type errorData struct {

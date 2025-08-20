@@ -7,8 +7,6 @@ package monoacquiring
 import (
 	"context"
 	"net/http"
-
-	"github.com/pkg/errors"
 )
 
 type GetPublicKeyResponse struct {
@@ -24,7 +22,7 @@ func (c *Client) GetPublicKey(ctx context.Context) (*GetPublicKeyResponse, error
 	var result GetPublicKeyResponse
 
 	if err = c.doReq(req, &result); err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 
 	return &result, nil
