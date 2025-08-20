@@ -11,6 +11,9 @@ const (
 
 	DiscountModePercent = "PERCENT"
 	DiscountModeValue   = "VALUE"
+
+	SyncPaymentCardTypeFPAN = "FPAN"
+	SyncPaymentCardTypeDPAN = "DPAN"
 )
 
 type errorData struct {
@@ -48,9 +51,38 @@ type BasketOrder struct {
 
 type MerchantPaymentInfo struct {
 	Reference      *string       `json:"reference,omitempty"`
-	Destination    *string       `json:"destination,omitempty" validate:"max=280"`
-	Comment        *string       `json:"comment,omitempty" validate:"max=280"`
+	Destination    *string       `json:"destination,omitempty" validate:"omitempty,max=280"`
+	Comment        *string       `json:"comment,omitempty" validate:"omitempty,max=280"`
 	CustomerEmails []string      `json:"customerEmails" validate:"dive,email"`
 	Discounts      []Discount    `json:"discounts,omitempty" validate:"dive"`
 	BasketOrder    []BasketOrder `json:"basketOrder,omitempty" validate:"dive"`
+}
+
+type GooglePay struct {
+	Cryptogram   *string `json:"cryptogram" validate:"omitempty"`
+	Token        string  `json:"token" validate:"required"`
+	Expiration   string  `json:"exp" validate:"required,card_exp"`
+	EciIndicator string  `json:"eciIndicator" validate:"required"`
+}
+
+type ApplePay struct {
+	Cryptogram   *string `json:"cryptogram" validate:"omitempty"`
+	Token        string  `json:"token" validate:"required"`
+	Expiration   string  `json:"exp" validate:"required,card_exp"`
+	EciIndicator string  `json:"eciIndicator" validate:"required"`
+}
+
+type SyncPaymentCard struct {
+	CVV              *string `json:"cvv" validate:"omitempty"`
+	CAVV             *string `json:"cavv" validate:"omitempty"`
+	TAVV             *string `json:"tavv" validate:"omitempty"`
+	DSTranID         *string `json:"dsTranId" validate:"omitempty"`
+	TokenRequestorID *string `json:"tReqID" validate:"omitempty"`
+	MIT              *string `json:"mit" validate:"omitempty"`
+	SST              *string `json:"sst" validate:"omitempty"`
+	TraceID          *string `json:"tid" validate:"omitempty"`
+	PAN              string  `json:"pan" validate:"required"`
+	Type             string  `json:"type" validate:"required,oneof=FPAN DPAN"`
+	Expiration       string  `json:"exp" validate:"required,card_exp"`
+	EciIndicator     string  `json:"eciIndicator" validate:"required"`
 }

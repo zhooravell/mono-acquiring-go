@@ -19,7 +19,7 @@ import (
 type InvoiceCreateRequest struct {
 	SaveCardData        *SaveCardData        `json:"saveCardData,omitempty"`
 	Currency            *int                 `json:"ccy,omitempty" validate:"omitempty,iso4217_numeric"`
-	MerchantPaymentInfo *MerchantPaymentInfo `json:"merchantPaymInfo,omitempty"`
+	MerchantPaymentInfo *MerchantPaymentInfo `json:"merchantPaymInfo,omitempty" validate:"omitempty"`
 	RedirectURL         *string              `json:"redirectUrl,omitempty" validate:"omitempty,http_url"`
 	WebHookURL          *string              `json:"webHookUrl,omitempty" validate:"omitempty,http_url"`
 	Validity            *int64               `json:"validity,omitempty"`

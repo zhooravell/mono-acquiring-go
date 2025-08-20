@@ -8,7 +8,7 @@ type TipsInfo struct {
 type WalletData struct {
 	CardToken string `json:"cardToken"`
 	WalletID  string `json:"walletId"`
-	Status    string `json:"status"`
+	Status    string `json:"status"` //todo enum
 }
 
 type PaymentInfo struct {
@@ -19,14 +19,14 @@ type PaymentInfo struct {
 	Terminal      string `json:"terminal"`
 	Bank          string `json:"bank"`
 	PaymentSystem string `json:"paymentSystem"`
-	PaymentMethod string `json:"paymentMethod"`
+	PaymentMethod string `json:"paymentMethod"` //todo enum
 	Country       string `json:"country"`
 	Fee           int64  `json:"fee"`
 	AgentFee      int64  `json:"agentFee"`
 }
 
 type CancelListItem struct {
-	Status            string `json:"status"`
+	Status            string `json:"status"` //todo enum
 	CreatedDate       string `json:"createdDate"`
 	ModifiedDate      string `json:"modifiedDate"`
 	ApprovalCode      string `json:"approvalCode"`
@@ -223,4 +223,48 @@ func (hfs HoldFinalizationStatus) String() string {
 
 func (hfs HoldFinalizationStatus) IsSuccess() bool {
 	return hfs.String() == holdStatusSuccess
+}
+
+const (
+	SyncPaymentStatusCreated    = "created"
+	SyncPaymentStatusProcessing = "processing"
+	SyncPaymentStatusHold       = "hold"
+	SyncPaymentStatusSuccess    = "success"
+	SyncPaymentStatusFailure    = "failure"
+	SyncPaymentStatusReversed   = "reversed"
+	SyncPaymentStatusExpired    = "expired"
+)
+
+type SyncPaymentStatus string
+
+func (sps SyncPaymentStatus) String() string {
+	return string(sps)
+}
+
+func (sps SyncPaymentStatus) IsCreated() bool {
+	return sps.String() == SyncPaymentStatusCreated
+}
+
+func (sps SyncPaymentStatus) IsProcessing() bool {
+	return sps.String() == SyncPaymentStatusProcessing
+}
+
+func (sps SyncPaymentStatus) IsHold() bool {
+	return sps.String() == SyncPaymentStatusHold
+}
+
+func (sps SyncPaymentStatus) IsSuccess() bool {
+	return sps.String() == SyncPaymentStatusSuccess
+}
+
+func (sps SyncPaymentStatus) IsFailure() bool {
+	return sps.String() == SyncPaymentStatusFailure
+}
+
+func (sps SyncPaymentStatus) IsReversed() bool {
+	return sps.String() == SyncPaymentStatusReversed
+}
+
+func (sps SyncPaymentStatus) IsExpired() bool {
+	return sps.String() == SyncPaymentStatusExpired
 }

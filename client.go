@@ -49,6 +49,7 @@ const (
 	geFiscalChecksPath       = "/api/merchant/invoice/fiscal-checks"
 	getStatementPath         = "/api/merchant/statement"
 	finalizeHoldPath         = "/api/merchant/invoice/finalize"
+	syncPaymentPath          = "/api/merchant/invoice/sync-payment"
 )
 
 var statusToError = map[int]error{
@@ -69,7 +70,12 @@ func NewClient(config Config, httpClient *http.Client, validate *validator.Valid
 		validate = validator.New()
 	}
 
-	if err := validate.Struct(config); err != nil {
+	err := validate.RegisterValidation("card_exp", cardExpValidation)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = validate.Struct(config); err != nil {
 		return nil, err
 	}
 
