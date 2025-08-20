@@ -12,7 +12,7 @@ import (
 )
 
 type GetInvoiceStatusRequest struct {
-	InvoiceID string `validate:"required"`
+	InvoiceID string `json:"invoiceId" validate:"required"`
 }
 
 type GetInvoiceStatusResponse struct {
@@ -37,25 +37,20 @@ func (c *Client) GetInvoiceStatus(
 	ctx context.Context,
 	payload GetInvoiceStatusRequest,
 ) (*GetInvoiceStatusResponse, error) {
-	var (
-		err    error
-		req    *http.Request
-		result GetInvoiceStatusResponse
-
-		path  = "/api/merchant/invoice/status"
-		query = make(map[string]string, 1)
-	)
-
-	if err = c.validator.StructCtx(ctx, payload); err != nil {
+	err := c.validator.StructCtx(ctx, payload)
+	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
+	query := make(map[string]string, 1)
 	query["invoiceId"] = payload.InvoiceID
 
-	if req, err = c.newRequest(ctx, http.MethodGet, path, query, nil); err != nil {
+	req, err := c.newRequest(ctx, http.MethodGet, invoiceStatusPath, query, nil)
+	if err != nil {
 		return nil, err
 	}
 
+	var result GetInvoiceStatusResponse
 	if err = c.doReq(req, &result); err != nil {
 		return nil, errors.WithStack(err)
 	}

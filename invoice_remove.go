@@ -14,8 +14,6 @@ type RemoveInvoiceRequest struct {
 }
 
 func (c *Client) RemoveInvoice(ctx context.Context, payload RemoveInvoiceRequest) error {
-	const path = "/api/merchant/invoice/remove"
-
 	err := c.validator.StructCtx(ctx, payload)
 	if err != nil {
 		return errors.WithStack(err)
@@ -26,7 +24,7 @@ func (c *Client) RemoveInvoice(ctx context.Context, payload RemoveInvoiceRequest
 		return errors.Wrap(err, "failed to marshal remove invoice request")
 	}
 
-	req, err := c.newRequest(ctx, http.MethodPost, path, nil, bytes.NewBuffer(reqBody))
+	req, err := c.newRequest(ctx, http.MethodPost, invoiceRemovePath, nil, bytes.NewBuffer(reqBody))
 	if err != nil {
 		return err
 	}

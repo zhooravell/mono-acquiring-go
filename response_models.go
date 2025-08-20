@@ -14,8 +14,8 @@ type WalletData struct {
 type PaymentInfo struct {
 	MaskedPan     string `json:"maskedPan"`
 	ApprovalCode  string `json:"approvalCode"`
-	Rrn           string `json:"rrn"`
-	TranID        string `json:"tranId"`
+	RRN           string `json:"rrn"`
+	TransactionID string `json:"tranId"`
 	Terminal      string `json:"terminal"`
 	Bank          string `json:"bank"`
 	PaymentSystem string `json:"paymentSystem"`
@@ -26,12 +26,12 @@ type PaymentInfo struct {
 }
 
 type CancelListItem struct {
-	Status       string `json:"status"`
-	CreatedDate  string `json:"createdDate"`
-	ModifiedDate string `json:"modifiedDate"`
-	ApprovalCode string `json:"approvalCode"`
-	Rrn          string `json:"rrn"`
-	ExtRef       string `json:"extRef"`
-	Amount       int64  `json:"amount"`
-	Ccy          int    `json:"ccy"`
+	Status            string `json:"status"`
+	CreatedDate       string `json:"createdDate"`
+	ModifiedDate      string `json:"modifiedDate"`
+	ApprovalCode      string `json:"approvalCode"`
+	RRN               string `json:"rrn"`
+	ExternalReference string `json:"extRef"`
+	Amount            int64  `json:"amount"`
+	Currency          int    `json:"ccy"`
 }

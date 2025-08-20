@@ -22,10 +22,10 @@ type CancelInvoiceItem struct {
 }
 
 type CancelInvoiceRequest struct {
-	InvoiceID string              `json:"invoiceId" validate:"required"`
-	ExtRef    *string             `json:"extRef,omitempty"`
-	Amount    *int64              `json:"amount,omitempty"`
-	Items     []CancelInvoiceItem `json:"items"`
+	InvoiceID         string              `json:"invoiceId" validate:"required"`
+	ExternalReference *string             `json:"extRef,omitempty"`
+	Amount            *int64              `json:"amount,omitempty"`
+	Items             []CancelInvoiceItem `json:"items"`
 }
 
 type CancelInvoiceResponse struct {
@@ -35,26 +35,22 @@ type CancelInvoiceResponse struct {
 }
 
 func (c *Client) CancelInvoice(ctx context.Context, payload CancelInvoiceRequest) (*CancelInvoiceResponse, error) {
-	var (
-		err     error
-		req     *http.Request
-		reqBody []byte
-		result  CancelInvoiceResponse
-
-		path = "/api/merchant/invoice/cancel"
-	)
-
-	if err = c.validator.StructCtx(ctx, payload); err != nil {
+	err := c.validator.StructCtx(ctx, payload)
+	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	if reqBody, err = json.Marshal(payload); err != nil {
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
 		return nil, errors.Wrap(err, "failed to marshal cancel invoice request")
 	}
 
-	if req, err = c.newRequest(ctx, http.MethodPost, path, nil, bytes.NewBuffer(reqBody)); err != nil {
+	req, err := c.newRequest(ctx, http.MethodPost, invoiceCancelPath, nil, bytes.NewBuffer(reqBody))
+	if err != nil {
 		return nil, err
 	}
+
+	var result CancelInvoiceResponse
 
 	if err = c.doReq(req, &result); err != nil {
 		return nil, err

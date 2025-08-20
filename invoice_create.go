@@ -15,7 +15,7 @@ import (
 
 type InvoiceCreateRequest struct {
 	SaveCardData        *SaveCardData        `json:"saveCardData,omitempty"`
-	Ccy                 *int64               `json:"ccy,omitempty"`
+	Currency            *int64               `json:"ccy,omitempty" validate:"omitempty,iso4217_numeric"`
 	MerchantPaymentInfo *MerchantPaymentInfo `json:"merchantPaymInfo,omitempty"`
 	RedirectURL         *string              `json:"redirectUrl,omitempty" validate:"omitempty,http_url"`
 	WebHookURL          *string              `json:"webHookUrl,omitempty" validate:"omitempty,http_url"`
@@ -40,8 +40,6 @@ func (c *Client) CreateInvoice(ctx context.Context, payload InvoiceCreateRequest
 		req     *http.Request
 		reqBody []byte
 		result  InvoiceCreateResponse
-
-		path = "/api/merchant/invoice/create"
 	)
 
 	if payload.PaymentType == "" {
@@ -56,7 +54,7 @@ func (c *Client) CreateInvoice(ctx context.Context, payload InvoiceCreateRequest
 		return nil, errors.WithStack(err)
 	}
 
-	if req, err = c.newRequest(ctx, http.MethodPost, path, nil, bytes.NewBuffer(reqBody)); err != nil {
+	if req, err = c.newRequest(ctx, http.MethodPost, invoiceCreatePath, nil, bytes.NewBuffer(reqBody)); err != nil {
 		return nil, err
 	}
 

@@ -30,6 +30,12 @@ type (
 
 const (
 	DefaultBaseURL = "https://api.monobank.ua/"
+
+	invoiceStatusPath = "/api/merchant/invoice/status"
+	invoiceCancelPath = "/api/merchant/invoice/cancel"
+	invoiceCreatePath = "/api/merchant/invoice/create"
+	invoiceRemovePath = "/api/merchant/invoice/remove"
+	getPublicKeyPath  = "/api/merchant/pubkey"
 )
 
 func NewClient(config Config, httpClient *http.Client, validate *validator.Validate) (*Client, error) {
