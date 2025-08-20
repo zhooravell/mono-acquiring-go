@@ -49,7 +49,7 @@ func (c *Client) CancelInvoice(ctx context.Context, payload CancelInvoiceRequest
 	}
 
 	if reqBody, err = json.Marshal(payload); err != nil {
-		return nil, errors.WithStack(err)
+		return nil, errors.Wrap(err, "failed to marshal cancel invoice request")
 	}
 
 	if req, err = c.newRequest(ctx, http.MethodPost, path, nil, bytes.NewBuffer(reqBody)); err != nil {
@@ -57,7 +57,7 @@ func (c *Client) CancelInvoice(ctx context.Context, payload CancelInvoiceRequest
 	}
 
 	if err = c.doReq(req, &result); err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 
 	return &result, nil

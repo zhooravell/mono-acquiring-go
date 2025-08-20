@@ -8,7 +8,7 @@ Monobank Acquiring GoLang SDK
 | Створення рахунку                       | POST        | `/api/merchant/invoice/create`                              | CreateInvoice()    |
 | Статус рахунку                          | GET         | `/api/merchant/invoice/status?invoiceId={invoiceId}`        | GetInvoiceStatus() |
 | Скасування оплати                       | POST        | `/api/merchant/invoice/cancel`                              | CancelInvoice()    |
-| Інвалідація рахунку                     | POST        | `/api/merchant/invoice/remove`                              |                    |
+| Інвалідація рахунку                     | POST        | `/api/merchant/invoice/remove`                              | RemoveInvoice()    |
 | Відкритий ключ                          | GET         | `/api/merchant/pubkey`                                      |                    |
 | Фіналізація суми холду                  | POST        | `/api/merchant/invoice/finalize`                            |                    |
 | Інформація про QR-касу                  | GET         | `/api/merchant/qr/details?qrId={qrId}`                      |                    |

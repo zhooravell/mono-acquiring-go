@@ -147,6 +147,10 @@ func (c *Client) doReq(req *http.Request, result any) error {
 		}
 	}
 
+	if result == nil {
+		return nil
+	}
+
 	if err = json.Unmarshal(resBody, result); err != nil {
 		return errors.WithStack(err)
 	}
