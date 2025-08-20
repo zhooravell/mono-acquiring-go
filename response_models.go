@@ -374,3 +374,51 @@ func (sps SyncPaymentStatus) IsReversed() bool {
 func (sps SyncPaymentStatus) IsExpired() bool {
 	return sps.String() == SyncPaymentStatusExpired
 }
+
+const (
+	tokenPaymentStatusProcessing = "processing"
+	tokenPaymentStatusSuccess    = "success"
+	tokenPaymentStatusFailure    = "failure"
+)
+
+type TokenPaymentStatus string
+
+func (tps TokenPaymentStatus) String() string {
+	return string(tps)
+}
+
+func (tps TokenPaymentStatus) IsProcessing() bool {
+	return tps.String() == tokenPaymentStatusProcessing
+}
+
+func (tps TokenPaymentStatus) IsSuccess() bool {
+	return tps.String() == tokenPaymentStatusSuccess
+}
+
+func (tps TokenPaymentStatus) IsFailure() bool {
+	return tps.String() == tokenPaymentStatusFailure
+}
+
+const (
+	directPaymentStatusProcessing = "processing"
+	directPaymentStatusSuccess    = "success"
+	directPaymentStatusFailure    = "failure"
+)
+
+type DirectPaymentStatus string
+
+func (dps DirectPaymentStatus) String() string {
+	return string(dps)
+}
+
+func (dps DirectPaymentStatus) IsProcessing() bool {
+	return dps.String() == directPaymentStatusProcessing
+}
+
+func (dps DirectPaymentStatus) IsSuccess() bool {
+	return dps.String() == directPaymentStatusSuccess
+}
+
+func (dps DirectPaymentStatus) IsFailure() bool {
+	return dps.String() == directPaymentStatusFailure
+}

@@ -19,8 +19,8 @@ Monobank Acquiring GoLang SDK
 | Виписка за період                       | GET         | `/api/merchant/statement`                                   | GetStatement()         |
 | Видалення токенізованої картки          | DELETE      | `/api/merchant/wallet/card`                                 | RemoveWalletCard()     |
 | Список карток у гаманці                 | GET         | `/api/merchant/wallet`                                      | GetWalletCardList()    |
-| Оплата по токену                        | POST        | `/api/merchant/wallet/payment`                              |                        |
-| Оплата за реквізитами                   | POST        | `/api/merchant/invoice/payment-direct`                      |                        |
+| Оплата по токену                        | POST        | `/api/merchant/wallet/payment`                              | TokenPayment()         |
+| Оплата за реквізитами                   | POST        | `/api/merchant/invoice/payment-direct`                      | DirectPayment()        |
 | Список субмерчантів                     | GET         | `/api/merchant/submerchant/list`                            | GetSubMerchantList()   |
 | Квитанція                               | GET         | `/api/merchant/invoice/receipt?invoiceId={invoiceId}`       | GetReceipt()           |
 | Фіскальні чеки                          | GET         | `/api/merchant/invoice/fiscal-checks?invoiceId={invoiceId}` | GetFiscalChecks()      |

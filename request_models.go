@@ -14,6 +14,9 @@ const (
 
 	SyncPaymentCardTypeFPAN = "FPAN"
 	SyncPaymentCardTypeDPAN = "DPAN"
+
+	InitiationKindClient   = "client"
+	InitiationKindMerchant = "merchant"
 )
 
 type errorData struct {
@@ -85,4 +88,10 @@ type SyncPaymentCard struct {
 	Type             string  `json:"type" validate:"required,oneof=FPAN DPAN"`
 	Expiration       string  `json:"exp" validate:"required,card_exp"`
 	EciIndicator     string  `json:"eciIndicator" validate:"required"`
+}
+
+type DirectPaymentCard struct {
+	PAN        string `json:"pan" validate:"required"`
+	Expiration string `json:"exp" validate:"required,card_exp"`
+	CVV        string `json:"cvv" validate:"required"`
 }

@@ -1,3 +1,7 @@
+//
+// https://monobank.ua/api-docs/acquiring/metody/internet-ekvairynh/post--api--merchant--invoice--sync-payment
+//
+
 package monoacquiring
 
 import (
@@ -32,7 +36,7 @@ type SyncPaymentResponse struct {
 	InvoiceID     string            `json:"invoiceId"`
 	Status        SyncPaymentStatus `json:"status"`
 	CancelList    []CancelListItem  `json:"cancelList"`
-	Ccy           int               `json:"ccy"`
+	Currency      int               `json:"ccy"`
 	Amount        int64             `json:"amount"`
 }
 

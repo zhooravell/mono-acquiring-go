@@ -50,6 +50,8 @@ const (
 	getStatementPath         = "/api/merchant/statement"
 	finalizeHoldPath         = "/api/merchant/invoice/finalize"
 	syncPaymentPath          = "/api/merchant/invoice/sync-payment"
+	tokenPaymentPath         = "/api/merchant/wallet/payment"
+	directPaymentPath        = "/api/merchant/invoice/payment-direct"
 )
 
 var statusToError = map[int]error{
