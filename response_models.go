@@ -59,3 +59,154 @@ func (qat QRAmountType) IsClient() bool {
 func (qat QRAmountType) IsFix() bool {
 	return qat.String() == qrAmountTypeFix
 }
+
+const (
+	fiscalCheckStatusNew     = "new"
+	fiscalCheckStatusProcess = "process"
+	fiscalCheckStatusDone    = "done"
+	fiscalCheckStatusFailed  = "failed"
+)
+
+type FiscalCheckStatus string
+
+func (fcs FiscalCheckStatus) String() string {
+	return string(fcs)
+}
+
+func (fcs FiscalCheckStatus) IsNew() bool {
+	return fcs.String() == fiscalCheckStatusNew
+}
+
+func (fcs FiscalCheckStatus) IsProcess() bool {
+	return fcs.String() == fiscalCheckStatusProcess
+}
+
+func (fcs FiscalCheckStatus) IsDone() bool {
+	return fcs.String() == fiscalCheckStatusDone
+}
+
+func (fcs FiscalCheckStatus) IsFailed() bool {
+	return fcs.String() == fiscalCheckStatusFailed
+}
+
+const (
+	fiscalCheckTypeSale   = "sale"
+	fiscalCheckTypeReturn = "return"
+)
+
+type FiscalCheckType string
+
+func (fct FiscalCheckType) String() string {
+	return string(fct)
+}
+
+func (fct FiscalCheckType) IsSale() bool {
+	return fct.String() == fiscalCheckTypeSale
+}
+
+func (fct FiscalCheckType) IsReturn() bool {
+	return fct.String() == fiscalCheckTypeReturn
+}
+
+const (
+	fiscalCheckSourceCheckBox    = "checkbox"
+	fiscalCheckSourceMonoPay     = "monopay"
+	fiscalCheckSourceVchasnoKasa = "vchasnokasa"
+)
+
+type FiscalCheckSource string
+
+func (fcs FiscalCheckSource) String() string {
+	return string(fcs)
+}
+
+func (fcs FiscalCheckSource) IsCheckBox() bool {
+	return fcs.String() == fiscalCheckSourceCheckBox
+}
+
+func (fcs FiscalCheckSource) IsMonoPay() bool {
+	return fcs.String() == fiscalCheckSourceMonoPay
+}
+
+func (fcs FiscalCheckSource) IsVchasnoKasa() bool {
+	return fcs.String() == fiscalCheckSourceVchasnoKasa
+}
+
+const (
+	statementStatusHold       = "hold"
+	statementStatusProcessing = "processing"
+	statementStatusSuccess    = "success"
+	statementStatusFailure    = "failure"
+)
+
+type StatementStatus string
+
+func (ss StatementStatus) String() string {
+	return string(ss)
+}
+
+func (ss StatementStatus) IsHold() bool {
+	return ss.String() == statementStatusHold
+}
+
+func (ss StatementStatus) IsProcessing() bool {
+	return ss.String() == statementStatusProcessing
+}
+
+func (ss StatementStatus) IsSuccess() bool {
+	return ss.String() == statementStatusSuccess
+}
+
+func (ss StatementStatus) IsFailure() bool {
+	return ss.String() == statementStatusFailure
+}
+
+const (
+	statementPaymentSchemeBnplLater30 = "bnpl_later_30"
+	statementPaymentSchemeBnplParts4  = "bnpl_parts_4"
+	statementPaymentSchemeFull        = "full"
+)
+
+type StatementPaymentScheme string
+
+func (ssp StatementPaymentScheme) String() string {
+	return string(ssp)
+}
+
+func (ssp StatementPaymentScheme) IsBnplLater30() bool {
+	return ssp.String() == statementPaymentSchemeBnplLater30
+}
+
+func (ssp StatementPaymentScheme) IsBnplParts4() bool {
+	return ssp.String() == statementPaymentSchemeBnplParts4
+}
+
+func (ssp StatementPaymentScheme) IsFull() bool {
+	return ssp.String() == statementPaymentSchemeFull
+}
+
+type StatementCancel struct {
+	ApprovalCode *string `json:"approvalCode,omitempty"`
+	RRN          *string `json:"rrn,omitempty"`
+	MaskedPan    string  `json:"maskedPan"`
+	Date         string  `json:"date"`
+	Amount       int64   `json:"amount"`
+	Currency     int     `json:"ccy"`
+}
+
+type Statement struct {
+	InvoiceID     string                 `json:"invoiceId"`
+	MaskedPan     string                 `json:"maskedPan"`
+	Date          string                 `json:"date"`
+	Status        StatementStatus        `json:"status"`
+	PaymentScheme StatementPaymentScheme `json:"paymentScheme"`
+	ApprovalCode  *string                `json:"approvalCode,omitempty"`
+	RRN           *string                `json:"rrn,omitempty"`
+	Reference     *string                `json:"reference,omitempty"`
+	ShortQrID     *string                `json:"shortQrId,omitempty"`
+	Destination   *string                `json:"destination,omitempty"`
+	ProfitAmount  *int64                 `json:"profitAmount,omitempty"`
+	CancelList    []StatementCancel      `json:"cancelList,omitempty"`
+	Amount        int64                  `json:"amount"`
+	Currency      int                    `json:"ccy"`
+}

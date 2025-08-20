@@ -21,9 +21,9 @@ Monobank Acquiring GoLang SDK
 | Список карток у гаманці                 | GET         | `/api/merchant/wallet`                                      | GetWalletCardList()    |
 | Оплата по токену                        | POST        | `/api/merchant/wallet/payment`                              |                        |
 | Оплата за реквізитами                   | POST        | `/api/merchant/invoice/payment-direct`                      |                        |
-| Список субмерчантів                     | GET         | `/api/merchant/submerchant/list`                            |                        |
-| Квитанція                               | GET         | `/api/merchant/invoice/receipt?invoiceId={invoiceId}`       |                        |
-| Фіскальні чеки                          | GET         | `/api/merchant/invoice/fiscal-checks?invoiceId={invoiceId}` |                        |
+| Список субмерчантів                     | GET         | `/api/merchant/submerchant/list`                            | GetSubMerchantList()   |
+| Квитанція                               | GET         | `/api/merchant/invoice/receipt?invoiceId={invoiceId}`       | GetReceipt()           |
+| Фіскальні чеки                          | GET         | `/api/merchant/invoice/fiscal-checks?invoiceId={invoiceId}` | GetFiscalChecks()      |
 | Синхронна оплата                        | POST        | `/api/merchant/invoice/sync-payment`                        |                        |
 | Список співробітників                   | GET         | `/api/merchant/employee/list`                               | GetEmployeeList()      |
 | Список отримувачів розщеплених платежів | GET         | `/api/merchant/split-receiver/list`                         | GetSplitReceiverList() |

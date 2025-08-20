@@ -44,6 +44,10 @@ const (
 	removeWalletCardPath     = "/api/merchant/wallet/card"
 	getQrDetailsPath         = "/api/merchant/qr/details"
 	qrResetAmountPath        = "/api/merchant/qr/reset-amount"
+	getSubMerchantListPath   = "/api/merchant/submerchant/list"
+	getReceiptPath           = "/api/merchant/invoice/receipt"
+	geFiscalChecksPath       = "/api/merchant/invoice/fiscal-checks"
+	getStatementPath         = "/api/merchant/statement"
 )
 
 var statusToError = map[int]error{
