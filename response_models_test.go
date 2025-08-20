@@ -209,3 +209,111 @@ func TestSyncPaymentStatus(t *testing.T) {
 	assert.False(t, e.IsProcessing())
 	assert.False(t, e.IsReversed())
 }
+
+func TestWalletDataStatus(t *testing.T) {
+	n := WalletDataStatus("new")
+	assert.Equal(t, "new", n.String())
+	assert.True(t, n.IsNew())
+	assert.False(t, n.IsCreated())
+	assert.False(t, n.IsFailed())
+
+	c := WalletDataStatus("created")
+	assert.Equal(t, "created", c.String())
+	assert.True(t, c.IsCreated())
+	assert.False(t, c.IsNew())
+	assert.False(t, c.IsFailed())
+
+	f := WalletDataStatus("failed")
+	assert.Equal(t, "failed", f.String())
+	assert.True(t, f.IsFailed())
+	assert.False(t, f.IsNew())
+	assert.False(t, f.IsCreated())
+}
+
+func TestPaymentSystem(t *testing.T) {
+	v := PaymentSystem("visa")
+	assert.Equal(t, "visa", v.String())
+	assert.True(t, v.IsVisa())
+	assert.False(t, v.IsMasterCard())
+
+	m := PaymentSystem("mastercard")
+	assert.Equal(t, "mastercard", m.String())
+	assert.True(t, m.IsMasterCard())
+	assert.False(t, m.IsVisa())
+}
+
+func TestPaymentMethod(t *testing.T) {
+	p := PaymentMethod("pan")
+	assert.Equal(t, "pan", p.String())
+	assert.True(t, p.IsPAN())
+	assert.False(t, p.IsApple())
+	assert.False(t, p.IsGoogle())
+	assert.False(t, p.IsMonobank())
+	assert.False(t, p.IsWallet())
+	assert.False(t, p.IsDirect())
+
+	a := PaymentMethod("apple")
+	assert.Equal(t, "apple", a.String())
+	assert.True(t, a.IsApple())
+	assert.False(t, a.IsPAN())
+	assert.False(t, a.IsGoogle())
+	assert.False(t, a.IsMonobank())
+	assert.False(t, a.IsWallet())
+	assert.False(t, a.IsDirect())
+
+	g := PaymentMethod("google")
+	assert.Equal(t, "google", g.String())
+	assert.True(t, g.IsGoogle())
+	assert.False(t, g.IsPAN())
+	assert.False(t, g.IsApple())
+	assert.False(t, g.IsMonobank())
+	assert.False(t, g.IsWallet())
+	assert.False(t, g.IsDirect())
+
+	m := PaymentMethod("monobank")
+	assert.Equal(t, "monobank", m.String())
+	assert.True(t, m.IsMonobank())
+	assert.False(t, m.IsPAN())
+	assert.False(t, m.IsApple())
+	assert.False(t, m.IsGoogle())
+	assert.False(t, m.IsWallet())
+	assert.False(t, m.IsDirect())
+
+	w := PaymentMethod("wallet")
+	assert.Equal(t, "wallet", w.String())
+	assert.True(t, w.IsWallet())
+	assert.False(t, w.IsPAN())
+	assert.False(t, w.IsApple())
+	assert.False(t, w.IsGoogle())
+	assert.False(t, w.IsMonobank())
+	assert.False(t, w.IsDirect())
+
+	d := PaymentMethod("direct")
+	assert.Equal(t, "direct", d.String())
+	assert.True(t, d.IsDirect())
+	assert.False(t, d.IsPAN())
+	assert.False(t, d.IsApple())
+	assert.False(t, d.IsGoogle())
+	assert.False(t, d.IsMonobank())
+	assert.False(t, d.IsWallet())
+}
+
+func TestCancelListItemStatus(t *testing.T) {
+	p := CancelListItemStatus("processing")
+	assert.Equal(t, "processing", p.String())
+	assert.True(t, p.IsProcessing())
+	assert.False(t, p.IsSuccess())
+	assert.False(t, p.IsFailure())
+
+	s := CancelListItemStatus("success")
+	assert.Equal(t, "success", s.String())
+	assert.True(t, s.IsSuccess())
+	assert.False(t, s.IsProcessing())
+	assert.False(t, s.IsFailure())
+
+	f := CancelListItemStatus("failure")
+	assert.Equal(t, "failure", f.String())
+	assert.True(t, f.IsFailure())
+	assert.False(t, f.IsProcessing())
+	assert.False(t, f.IsSuccess())
+}

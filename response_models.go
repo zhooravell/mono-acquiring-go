@@ -5,35 +5,141 @@ type TipsInfo struct {
 	Amount     int    `json:"amount"`
 }
 
+const (
+	walletDataStatusNew     = "new"
+	walletDataStatusCreated = "created"
+	walletDataStatusFailed  = "failed"
+)
+
+type WalletDataStatus string
+
+func (wds WalletDataStatus) String() string {
+	return string(wds)
+}
+
+func (wds WalletDataStatus) IsNew() bool {
+	return wds.String() == walletDataStatusNew
+}
+
+func (wds WalletDataStatus) IsCreated() bool {
+	return wds.String() == walletDataStatusCreated
+}
+
+func (wds WalletDataStatus) IsFailed() bool {
+	return wds.String() == walletDataStatusFailed
+}
+
 type WalletData struct {
-	CardToken string `json:"cardToken"`
-	WalletID  string `json:"walletId"`
-	Status    string `json:"status"` //todo enum
+	CardToken string           `json:"cardToken"`
+	WalletID  string           `json:"walletId"`
+	Status    WalletDataStatus `json:"status"`
+}
+
+const (
+	paymentSystemMasterCard = "mastercard"
+	paymentSystemVisa       = "visa"
+)
+
+type PaymentSystem string
+
+func (ps PaymentSystem) String() string {
+	return string(ps)
+}
+
+func (ps PaymentSystem) IsMasterCard() bool {
+	return ps.String() == paymentSystemMasterCard
+}
+
+func (ps PaymentSystem) IsVisa() bool {
+	return ps.String() == paymentSystemVisa
+}
+
+const (
+	paymentMethodPAN      = "pan"
+	paymentMethodApple    = "apple"
+	paymentMethodGoogle   = "google"
+	paymentMethodMonobank = "monobank"
+	paymentMethodWallet   = "wallet"
+	paymentMethodDirect   = "direct"
+)
+
+type PaymentMethod string
+
+func (pm PaymentMethod) String() string {
+	return string(pm)
+}
+
+func (pm PaymentMethod) IsPAN() bool {
+	return pm.String() == paymentMethodPAN
+}
+
+func (pm PaymentMethod) IsApple() bool {
+	return pm.String() == paymentMethodApple
+}
+
+func (pm PaymentMethod) IsGoogle() bool {
+	return pm.String() == paymentMethodGoogle
+}
+
+func (pm PaymentMethod) IsMonobank() bool {
+	return pm.String() == paymentMethodMonobank
+}
+
+func (pm PaymentMethod) IsWallet() bool {
+	return pm.String() == paymentMethodWallet
+}
+
+func (pm PaymentMethod) IsDirect() bool {
+	return pm.String() == paymentMethodDirect
 }
 
 type PaymentInfo struct {
-	MaskedPan     string `json:"maskedPan"`
-	ApprovalCode  string `json:"approvalCode"`
-	RRN           string `json:"rrn"`
-	TransactionID string `json:"tranId"`
-	Terminal      string `json:"terminal"`
-	Bank          string `json:"bank"`
-	PaymentSystem string `json:"paymentSystem"`
-	PaymentMethod string `json:"paymentMethod"` //todo enum
-	Country       string `json:"country"`
-	Fee           int64  `json:"fee"`
-	AgentFee      int64  `json:"agentFee"`
+	MaskedPan     string        `json:"maskedPan"`
+	ApprovalCode  string        `json:"approvalCode"`
+	RRN           string        `json:"rrn"`
+	TransactionID string        `json:"tranId"`
+	Terminal      string        `json:"terminal"`
+	Bank          string        `json:"bank"`
+	PaymentSystem PaymentSystem `json:"paymentSystem"`
+	PaymentMethod PaymentMethod `json:"paymentMethod"`
+	Country       string        `json:"country"`
+	Fee           int64         `json:"fee"`
+	AgentFee      int64         `json:"agentFee"`
+}
+
+const (
+	cancelListItemStatusProcessing = "processing"
+	cancelListItemStatusSuccess    = "success"
+	cancelListItemStatusFailure    = "failure"
+)
+
+type CancelListItemStatus string
+
+func (cli CancelListItemStatus) String() string {
+	return string(cli)
+}
+
+func (cli CancelListItemStatus) IsProcessing() bool {
+	return cli.String() == cancelListItemStatusProcessing
+}
+
+func (cli CancelListItemStatus) IsSuccess() bool {
+	return cli.String() == cancelListItemStatusSuccess
+}
+
+func (cli CancelListItemStatus) IsFailure() bool {
+	return cli.String() == cancelListItemStatusFailure
 }
 
 type CancelListItem struct {
-	Status            string `json:"status"` //todo enum
-	CreatedDate       string `json:"createdDate"`
-	ModifiedDate      string `json:"modifiedDate"`
-	ApprovalCode      string `json:"approvalCode"`
-	RRN               string `json:"rrn"`
-	ExternalReference string `json:"extRef"`
-	Amount            int64  `json:"amount"`
-	Currency          int    `json:"ccy"`
+	Status            CancelListItemStatus `json:"status"`
+	CreatedDate       string               `json:"createdDate"`
+	ModifiedDate      string               `json:"modifiedDate"`
+	ApprovalCode      string               `json:"approvalCode"`
+	RRN               string               `json:"rrn"`
+	ExternalReference string               `json:"extRef"`
+	Amount            int64                `json:"amount"`
+	Currency          int                  `json:"ccy"`
 }
 
 const (
