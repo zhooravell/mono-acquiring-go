@@ -1,6 +1,8 @@
 //
 // https://monobank.ua/api-docs/acquiring/metody/internet-ekvairynh/post--api--merchant--invoice--create
 // https://monobank.ua/api-docs/acquiring/metody/qr-ekvairynh/post--api--merchant--invoice--create
+// https://monobank.ua/api-docs/acquiring/dodatkova-funktsionalnist/tokenizatsiia/post--api--merchant--invoice--create
+// https://monobank.ua/api-docs/acquiring/metody/rozshcheplennia/post--api--merchant--invoice--create
 //
 
 package monoacquiring

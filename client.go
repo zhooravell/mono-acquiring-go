@@ -42,6 +42,8 @@ const (
 	getWalletCardListPath    = "/api/merchant/wallet"
 	getSplitReceiverListPath = "/api/merchant/split-receiver/list"
 	removeWalletCardPath     = "/api/merchant/wallet/card"
+	getQrDetailsPath         = "/api/merchant/qr/details"
+	qrResetAmountPath        = "/api/merchant/qr/reset-amount"
 )
 
 var statusToError = map[int]error{

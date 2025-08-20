@@ -1,3 +1,7 @@
+//
+// https://monobank.ua/api-docs/acquiring/dodatkova-funktsionalnist/tokenizatsiia/delete--api--merchant--wallet--card
+//
+
 package monoacquiring
 
 import (

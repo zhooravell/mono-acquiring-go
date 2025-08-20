@@ -1,5 +1,7 @@
 //
 // https://monobank.ua/api-docs/acquiring/metody/internet-ekvairynh/get--api--merchant--invoice--status
+// https://monobank.ua/api-docs/acquiring/dodatkova-funktsionalnist/tokenizatsiia/get--api--merchant--invoice--status
+// https://monobank.ua/api-docs/acquiring/metody/rozshcheplennia/get--api--merchant--invoice--status
 //
 
 package monoacquiring

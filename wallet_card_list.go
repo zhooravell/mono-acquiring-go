@@ -1,3 +1,7 @@
+//
+// https://monobank.ua/api-docs/acquiring/dodatkova-funktsionalnist/tokenizatsiia/get--api--merchant--wallet
+//
+
 package monoacquiring
 
 import (

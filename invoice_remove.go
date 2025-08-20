@@ -1,3 +1,8 @@
+//
+// https://monobank.ua/api-docs/acquiring/dodatkova-funktsionalnist/tokenizatsiia/post--api--merchant--invoice--remove
+// https://monobank.ua/api-docs/acquiring/metody/rozshcheplennia/post--api--merchant--invoice--remove
+//
+
 package monoacquiring
 
 import (

@@ -1,3 +1,7 @@
+//
+// https://monobank.ua/api-docs/acquiring/metody/rozshcheplennia/post--api--merchant--invoice--cancel
+//
+
 package monoacquiring
 
 import (
